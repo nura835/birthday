@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Gift Website 🎁</title>
+
+  <style>
+    :root {
+      --primary: #ff69b4;
+      --secondary: #ffdfd6;
+      --card: #fff;
+      --text: #3c1d57;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffb3d6 0%, #ffe8e4 45%, #fff3c5 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      margin: 0 0 10px;
+      letter-spacing: 1px;
+      color: #a6146e;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    p.subtitle { font-size: 1.1rem; margin: 4px 0 20px; }
+
+    .hero button {
+      border: none;
+      background: linear-gradient(120deg, #ff6fa2, #fe4b8f);
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 999px;
+      padding: 12px 24px;
+      box-shadow: 0 8px 18px rgba(255, 81, 142, 0.4);
+    }
+
+    .hero button:hover { transform: translateY(-2px); }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 25px;
+    }
+
+    .gifts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+      padding-bottom: 10px;
+    }
+
+    .gift-card {
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 12px 26px rgba(93, 12, 73, 0.12);
+      overflow: hidden;
+      text-align: left;
+      border: 1px solid #ffe5ec;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gift-card:hover { transform: translateY(-5px); box-shadow: 0 20px 30px rgba(93, 12, 73, 0.22); }
+
+    .gift-card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gift-content {
+      padding: 14px 12px 18px;
+    }
+
+    .gift-content h3 { margin: 0 0 8px; font-size: 1.15rem; }
+    .gift-content p { margin: 0 0 10px; color: #6a4a7b; }
+    .gift-content .price { font-weight: 700; color: #dd2f84; }
+
+    .gift-content button {
+      border: 0;
+      border-radius: 12px;
+      padding: 9px 14px;
+      background: #ff66a4;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .wishlist {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px dashed #ff8ab1;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .wishlist h2 { margin: 0 0 8px; font-size: 1.2rem; }
+    .wishlist ul { list-style: none; margin: 0; padding: 0; color: #8e4b89; }
+    .wishlist li { margin: 6px 0; display: flex; justify-content: space-between; align-items: center; }
+
+    .wishlist li button {
+      border: none;
+      background: transparent;
+      color: #c23b8c;
+      font-size: .9rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .surprise {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+      gap: 15px;
+    }
+
+    #surpriseMessage {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 14px;
+      background: #fff6f8;
+      border: 1px solid #ffd5e7;
+      color: #8a4a87;
+    }
+
+    .balloons {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .balloons span {
+      position: absolute;
+      display: block;
+      width: 25px;
+      height: 35px;
+      background: rgba(255, 96, 173, 0.85);
+      border-radius: 50% 50% 50% 50%;
+      animation: drift 8s infinite ease-in;
+    }
+
+    .balloons span:nth-child(odd) { width: 38px; height: 50px; }
+    .balloons span:nth-child(even) { background: rgba(255, 175, 190, 0.9); }
+
+    @keyframes drift {
+      0% { transform: translateY(120vh) rotate(0deg); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(-30vh) rotate(420deg); opacity: 0; }
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px 12px 24px;
+      color: #6c3d7a;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 650px) { h1 { font-size: 2rem; } }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🎉 Happy Birthday, My Love!</h1>
+    <p class="subtitle">This website is made just for you. Pick gifts and make your special day unforgettable.</p>
+    <div class="hero">
+      <button onclick="toggleSurprise()">Open Your Birthday Wish</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="gifts" aria-label="Gift suggestions">
+      <article class="gift-card">
+        <img src="https://images.unsplash.com/photo-1512601630386-41213a1938a0?auto=format&fit=crop&w=500&q=60" alt="Luxury scented candles">
+        <div class="gift-content">
+          <h3>Luxury Scented Candle</h3>
+          <p>Relaxing aroma for a cozy birthday moment.</p>
+          <p class="price">$24.99</p>
+          <button onclick="addToWishlist('Luxury Scented Candle')">Add to Wishlist</button>
+        </div>
+      </article>
+
+      <article class="gift-card">
+        <img src="https://images.unsplash.com/photo-1522938974445-97b12ae581c7?auto=format&fit=crop&w=500&q=60" alt="Personalized jewelry box">
+        <div class="gift-content">
+          <h3>Personalized Jewelry Box</h3>
+          <p>A keepsake with your name elegantly engraved.</p>
+          <p class="price">$39.99</p>
+          <button onclick="addToWishlist('Personalized Jewelry Box')">Add to Wishlist</button>
+        </div>
+      </article>
+
+      <article class="gift-card">
+        <img src="https://images.unsplash.com/photo-1522242972680-224ca11f4021?auto=format&fit=crop&w=500&q=60" alt="Birthday weekend getaway">
+        <div class="gift-content">
+          <h3>Weekend Getaway Voucher</h3>
+          <p>Escape to a sunny resort with an adventure package.</p>
+          <p class="price">$129.00</p>
+          <button onclick="addToWishlist('Weekend Getaway Voucher')">Add to Wishlist</button>
+        </div>
+      </article>
+
+      <article class="gift-card">
+        <img src="https://images.unsplash.com/photo-1607859740593-973a8e97dbae?auto=format&fit=crop&w=500&q=60" alt="Customizable birthday cake">
+        <div class="gift-content">
+          <h3>Custom Birthday Cake</h3>
+          <p>Choose flavor, style, and message for your cake.</p>
+          <p class="price">$49.90</p>
+          <button onclick="addToWishlist('Custom Birthday Cake')">Add to Wishlist</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="wishlist" aria-live="polite">
+      <h2>Your Wishlist</h2>
+      <ul id="wishlist"></ul>
+      <p id="wishlistEmpty">No items yet. Tap gifts to add them!</p>
+    </section>
+
+    <div id="surpriseMessage" role="status">
+      🎁 Surprise: Happy birthday, sweetheart! <strong>Every moment with you is a gift; I love you more than words can say.</strong>
+    </div>
+
+    <div class="balloons">
+      <span style="left: 5%; animation-duration: 10s; animation-delay: 0s;"></span>
+      <span style="left: 20%; animation-duration: 8s; animation-delay: 1s;"></span>
+      <span style="left: 37%; animation-duration: 9s; animation-delay: 2s;"></span>
+      <span style="left: 54%; animation-duration: 7s; animation-delay: 0.3s;"></span>
+      <span style="left: 70%; animation-duration: 11s; animation-delay: 0.8s;"></span>
+      <span style="left: 85%; animation-duration: 9s; animation-delay: 1.2s;"></span>
+    </div>
+  </main>
+
+  <footer>
+    Crafted with love for your birthday celebration 💝
+  </footer>
+
+  <script>
+    const wishlist = new Set();
+
+    function addToWishlist(item) {
+      if (wishlist.has(item)) {
+        alert(`${item} is already in your wishlist!`);
+        return;
+      }
+      wishlist.add(item);
+      renderWishlist();
+    }
+
+    function removeFromWishlist(item) {
+      wishlist.delete(item);
+      renderWishlist();
+    }
+
+    function renderWishlist() {
+      const list = document.getElementById('wishlist');
+      const empty = document.getElementById('wishlistEmpty');
+      list.innerHTML = '';
+
+      if (wishlist.size === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+
+      empty.style.display = 'none';
+
+      wishlist.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.onclick = () => removeFromWishlist(item);
+
+        li.appendChild(removeBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function toggleSurprise() {
+      const surprise = document.getElementById('surpriseMessage');
+      surprise.style.display = surprise.style.display === 'block' ? 'none' : 'block';
+    }
+
+    renderWishlist();
+  </script>
+</body>
+</html>
